@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background); --color-foreground: var(--foreground); --color-card: var(--card); --color-card-foreground: var(--card-foreground); --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground); --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground); --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground); --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring); --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground); --color-destructive: var(--destructive); --radius-sm: calc(var(--radius)*.6); --radius-md: calc(var(--radius)*.8); --radius-lg: var(--radius); --radius-xl: calc(var(--radius)*1.4);
+}
+
+:root { --background:#F3F7F8; --foreground:#102A43; --card:#FFFFFF; --card-foreground:#102A43; --primary:#102A43; --primary-foreground:#FFFFFF; --secondary:#E7F8F1; --secondary-foreground:#12624F; --muted:#E9EEF2; --muted-foreground:#60758A; --accent:#FFEDD5; --accent-foreground:#9A3412; --destructive:#C83232; --border:#D7E1E7; --input:#CBD8E0; --ring:#147D64; --radius:.8rem; }
+.dark { --background:#0B1724; --foreground:#F3F7F8; --card:#102A43; --card-foreground:#F3F7F8; --primary:#9FE3C2; --primary-foreground:#102A43; --secondary:#183B4D; --secondary-foreground:#D8F7E8; --muted:#183044; --muted-foreground:#A7BAC9; --accent:#7C2D12; --accent-foreground:#FFEDD5; --destructive:#FB7185; --border:#28465A; --input:#365569; --ring:#9FE3C2; }
+@layer base { * { @apply border-border outline-ring/50; } html { font-family: Arial, 'Noto Sans TC', sans-serif; } body { @apply bg-background text-foreground; } button, input, select, textarea { font: inherit; } }
+
+.section-title { margin-bottom: 1rem; border-bottom: 1px solid #D7E1E7; padding-bottom: .65rem; font-size: 1.05rem; font-weight: 900; }
+@media print {
+  @page { size: 13.333in 7.5in; margin: 0; }
+  body { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+  .plan-sheet { width: 13.333in; height: 7.5in; border-radius: 0 !important; box-shadow: none !important; }
+  .plan-sheet > header { padding: .25in .35in; }
+  .plan-sheet > div { grid-template-columns: repeat(4, minmax(0,1fr)) !important; }
+  .exercise-card { padding: .11in !important; }
+  .exercise-card > div:nth-of-type(2) { height: .52in !important; margin-bottom: .06in !important; }
+  .exercise-card h3 { font-size: .83rem !important; }
+  .exercise-card p { margin-top: .03in !important; font-size: .62rem !important; line-height: 1.2 !important; }
+  .exercise-card details { margin-top: .05in !important; padding: .04in .06in !important; font-size: .54rem !important; }
+  .plan-sheet footer { padding: .09in .3in !important; }
+}
