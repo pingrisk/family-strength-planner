@@ -75,7 +75,7 @@ function equipmentFits(exercise: Exercise, person: Person) {
   return exercise.equipment.includes('none') || exercise.equipment.every((item) => person.equipment.includes(item));
 }
 
-export function makePlan(person: Person, sessions: number): Plan {
+export function makePlan(person: Person, sessions: number, dayIndex = 0): Plan {
   const safety = assessSafety(person);
   const avoid = inferAvoid(person);
   const eligible = exercises.filter((exercise) =>
@@ -83,15 +83,16 @@ export function makePlan(person: Person, sessions: number): Plan {
     equipmentFits(exercise, person) &&
     !exercise.avoid.some((tag) => avoid.has(tag)),
   );
+  const rotate = (items: Exercise[]) => items.length ? [...items.slice(dayIndex % items.length), ...items.slice(0, dayIndex % items.length)] : items;
   const take = (phase: Exercise['phase'], count: number) => {
     const ordered = eligible
       .filter((exercise) => exercise.phase === phase)
       .sort((a, b) => Number(b.goals.includes(person.goal)) - Number(a.goals.includes(person.goal)));
-    if (phase !== 'strength') return ordered.slice(0, count);
+    if (phase !== 'strength') return rotate(ordered).slice(0, count);
     const varied = ordered.filter((exercise, index, list) =>
       list.findIndex((candidate) => candidate.pattern === exercise.pattern) === index,
     );
-    return [...varied, ...ordered.filter((exercise) => !varied.includes(exercise))].slice(0, count);
+    return rotate([...varied, ...ordered.filter((exercise) => !varied.includes(exercise))]).slice(0, count);
   };
   return {
     person,
@@ -129,3 +130,4 @@ export function equipmentLabel(equipment: string) {
 }
 
 export const exerciseCount = exercises.length;
+
